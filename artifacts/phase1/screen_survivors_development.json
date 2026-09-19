@@ -1,0 +1,8 @@
+{
+  "bh_cutoff": 0.013513513513513514,
+  "survivors": [
+    "return_1d",
+    "carry_score",
+    "return_5d"
+  ]
+}

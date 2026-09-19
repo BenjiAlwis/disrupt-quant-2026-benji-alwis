@@ -1,0 +1,19 @@
+{
+  "sessions": 910,
+  "total_return": 0.16046868827189797,
+  "annualized_return": 0.04207382520191283,
+  "annualized_volatility": 0.11320525965778151,
+  "sharpe": 0.42015340836046683,
+  "sortino": 0.6622849407824374,
+  "maximum_drawdown": -0.10967009774849013,
+  "calmar": 0.3836398988026987,
+  "hit_rate": 0.5054945054945055,
+  "average_turnover": 0.00965519360066516,
+  "annualized_turnover": 2.4331087873676203,
+  "transaction_costs": 0.004486818920508928,
+  "average_gross_exposure": 1.0,
+  "maximum_gross_exposure": 1.0,
+  "average_net_exposure": 1.0,
+  "maximum_absolute_net_exposure": 1.0,
+  "constraint_adjustment_days": 0
+}

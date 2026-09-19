@@ -1,0 +1,248 @@
+Disrupt Quant 2026 - Phase 1 research suite
+generated 2026-09-18T15:57:47+00:00
+numpy/pandas/scipy pinned per requirements.txt
+
+
+==============================================================================
+  1.0  DATA INTEGRITY AND LOOK-AHEAD AUDIT
+==============================================================================
+===== INVARIANTS (development) =====
+  [PASS] high >= max(open, close)
+  [PASS] low  <= min(open, close)
+  [PASS] high >= low
+  [PASS] all prices > 0
+  [PASS] bid < ask
+  [PASS] volume > 0
+  [PASS] liquidity_score in [0.1, 1.0]
+  [PASS] event_intensity in [0, 3]
+  [PASS] event_flag == (event_intensity > 1)
+  [PASS] no duplicate (date, asset)
+  [PASS] one row per asset per date
+  [PASS] no nulls
+
+===== FIELD DEFINITION RECONSTRUCTION (development) =====
+  Recomputed from raw data using only observations up to and including t.
+  field                 max|abs err|      corr  n compared  verdict
+  return_1d                 9.91e-10  1.000000       21840  exact
+  return_5d                 9.43e-10  1.000000       21744  exact
+  return_20d                9.81e-10  1.000000       21384  exact
+  price_strength_20         5.84e-10  1.000000       21408  exact
+  price_strength_60         5.27e-10  1.000000       20448  exact
+  realized_vol_5d           6.47e-10  1.000000       21744  exact
+  realized_vol_20d          3.28e-10  1.000000       21384  exact
+  volume_zscore             5.00e-10  1.000000       21408  exact
+  volume_trend              4.86e-10  1.000000       21408  exact
+  intraday_range            9.52e-10  1.000000       21864  exact
+  spread_bps                9.68e-06  1.000000       21864  close
+  market_return             1.10e-10  1.000000       21840  exact
+  sector_return             4.33e-10  1.000000       21840  exact
+  market_volatility         2.42e-11  1.000000       21384  exact
+  sector_dispersion         4.67e-10  1.000000       21840  exact
+
+===== LOOK-AHEAD TEST (development) =====
+  corr(supplied, rebuilt using data <= t) vs corr(supplied, rebuilt <= t+1)
+  field                  corr(<=t)  corr(<=t+1)  verdict
+  return_1d               1.000000    -0.047056  clean
+  return_5d               1.000000     0.784400  clean
+  price_strength_20       1.000000     0.913134  clean
+  realized_vol_20d        1.000000     0.980708  clean
+  volume_zscore           1.000000     0.005892  clean
+  market_return           1.000000    -0.071931  clean
+  market_volatility       1.000000     0.986145  clean
+
+==============================================================================
+  1.1  MARKET STRUCTURE
+==============================================================================
+===== FACTOR STRUCTURE =====
+  T=911  N=24  Marchenko-Pastur support = [0.702, 1.351]
+  eigenvalues: [6.593 1.228 1.123 1.084 0.987 0.941 0.911 0.844 0.827 0.801 0.771 0.757
+ 0.7   0.692 0.66  0.643 0.627 0.61  0.596 0.574 0.537 0.536 0.495 0.464]
+  eigenvalues above the noise edge: 1
+  cumulative variance share: [0.2747 0.3259 0.3727 0.4178 0.459  0.4982]
+  PC1 loadings all positive: True  (min 0.135, max 0.258) -> market factor
+
+===== SECTOR BLOCK STRUCTURE =====
+  within-sector mean rho = 0.3061 (n=36)
+  across-sector mean rho = 0.2259 (n=240)
+  gap = +0.0802   permutation p = 0.0000 (5000 label shuffles)
+
+===== VARIANCE RATIO TESTS (Lo-MacKinlay, heteroskedasticity-robust) =====
+  VR < 1 mean reversion, VR > 1 trending; |z| > 1.96 rejects a random walk
+  market factor                      q= 2  VR= 0.927  z=  -1.20
+  market factor                      q= 3  VR= 0.905  z=  -1.05
+  market factor                      q= 5  VR= 0.891  z=  -0.81
+  market factor                      q=10  VR= 0.842  z=  -0.79
+  market factor                      q=20  VR= 0.588  z=  -1.39
+  per asset (median)                 q= 2  VR= 0.954  z=  -1.31
+  per asset (median)                 q= 3  VR= 0.927  z=  -1.16
+  per asset (median)                 q= 5  VR= 0.915  z=  -0.95
+  per asset (median)                 q=10  VR= 0.887  z=  -0.86
+  per asset (median)                 q=20  VR= 0.805  z=  -0.93
+  market-neutral residual (median)   q= 2  VR= 0.960  z=  -1.02
+  market-neutral residual (median)   q= 3  VR= 0.947  z=  -1.00
+  market-neutral residual (median)   q= 5  VR= 0.930  z=  -0.88
+  market-neutral residual (median)   q=10  VR= 0.901  z=  -0.84
+  market-neutral residual (median)   q=20  VR= 0.896  z=  -0.57
+
+===== FIRST-ORDER AUTOCORRELATION (HAC t-stats) =====
+  raw asset returns        lag 1: mean rho -0.0458   cross-asset t -5.09
+  raw asset returns        lag 2: mean rho +0.0081   cross-asset t +0.84
+  raw asset returns        lag 3: mean rho -0.0007   cross-asset t -0.11
+  raw asset returns        lag 5: mean rho -0.0085   cross-asset t -1.66
+  market-neutral residual  lag 1: mean rho -0.0370   cross-asset t -5.50
+  market-neutral residual  lag 2: mean rho +0.0098   cross-asset t +1.38
+  market-neutral residual  lag 3: mean rho +0.0015   cross-asset t +0.19
+  market-neutral residual  lag 5: mean rho -0.0057   cross-asset t -1.09
+  market factor            lags 1-3,5: [-0.0719  0.0028 -0.0004 -0.0174]
+
+===== RETURN DECOMPOSITION: OVERNIGHT GAP vs INTRADAY SESSION =====
+  The engine grants a NEWLY requested position only the open->close move.
+  close -> close   sd = 1.3909%   mean = +0.02144%   share of cc variance = 1.000
+  overnight gap    sd = 0.3639%   mean = +0.00195%   share of cc variance = 0.068
+  open -> close    sd = 1.0890%   mean = +0.01642%   share of cc variance = 0.613
+  corr(gap, open->close) = +0.7740
+
+==============================================================================
+  1.2  SIGNAL SCREEN
+==============================================================================
+===== CROSS-SECTIONAL IC SCREEN (development) =====
+  scored against open(t+1)->close(t+1); 56 live tests; BH q=0.10 cutoff p <= 0.01250
+  field              neutral               IC    t_nw  t_naive     p_nw             95% CI   BH
+  return_1d          sector_neutral   -0.0542   -5.84    -6.80   0.0000  [-0.0755,-0.0344]  YES
+  return_1d          raw              -0.0475   -5.23    -6.54   0.0000  [-0.0698,-0.0276]  YES
+  return_1d          market_neutral   -0.0475   -5.23    -6.54   0.0000  [-0.0698,-0.0276]  YES
+  carry_score        sector_neutral    0.0297    4.32     3.79   0.0000  [+0.0172,+0.0428]  YES
+  carry_score        raw               0.0238    3.54     3.42   0.0004  [+0.0112,+0.0365]  YES
+  carry_score        market_neutral    0.0238    3.54     3.42   0.0004  [+0.0112,+0.0365]  YES
+  return_5d          sector_neutral   -0.0200   -2.58    -2.69   0.0099  [-0.0351,-0.0054]  YES
+  return_5d          raw              -0.0177   -2.38    -2.59   0.0175  [-0.0330,-0.0033]     
+  return_5d          market_neutral   -0.0177   -2.38    -2.59   0.0175  [-0.0330,-0.0033]     
+  volume             sector_neutral   -0.0163   -2.20    -2.15   0.0276  [-0.0312,-0.0002]     
+  realized_vol_20d   sector_neutral    0.0155    2.07     1.95   0.0388  [+0.0009,+0.0302]     
+  return_20d         raw               0.0129    1.85     1.83   0.0647  [-0.0022,+0.0280]     
+  return_20d         market_neutral    0.0129    1.85     1.83   0.0647  [-0.0022,+0.0280]     
+  return_20d         sector_neutral    0.0118    1.70     1.56   0.0892  [-0.0019,+0.0277]     
+  event_intensity    market_neutral    0.0092    1.38     1.35   0.1670  [-0.0050,+0.0216]     
+  event_intensity    raw               0.0092    1.38     1.35   0.1670  [-0.0050,+0.0216]     
+  price_strength_60  sector_neutral    0.0099    1.35     1.26   0.1778  [-0.0070,+0.0262]     
+  realized_vol_20d   market_neutral    0.0086    1.32     1.22   0.1863  [-0.0046,+0.0222]     
+  realized_vol_20d   raw               0.0086    1.32     1.22   0.1863  [-0.0046,+0.0222]     
+  event_intensity    sector_neutral    0.0091    1.26     1.22   0.2085  [-0.0032,+0.0225]     
+  price_strength_20  sector_neutral   -0.0098   -1.25    -1.31   0.2118  [-0.0272,+0.0067]     
+  volume             raw              -0.0083   -1.24    -1.23   0.2132  [-0.0203,+0.0039]     
+  volume             market_neutral   -0.0083   -1.24    -1.23   0.2132  [-0.0203,+0.0039]     
+  volume_trend       sector_neutral   -0.0088   -1.20    -1.18   0.2306  [-0.0222,+0.0048]     
+  liquidity_score    sector_neutral   -0.0089   -1.18    -1.16   0.2362  [-0.0245,+0.0063]     
+  spread_bps         sector_neutral    0.0086    1.13     1.10   0.2583  [-0.0071,+0.0237]     
+  liquidity_score    raw              -0.0075   -1.08    -1.11   0.2793  [-0.0217,+0.0064]     
+  liquidity_score    market_neutral   -0.0075   -1.08    -1.11   0.2793  [-0.0217,+0.0064]     
+  price_strength_60  raw               0.0076    0.99     1.05   0.3210  [-0.0096,+0.0237]     
+  price_strength_60  market_neutral    0.0076    0.99     1.05   0.3210  [-0.0096,+0.0237]     
+  volume_zscore      raw              -0.0071   -0.99    -0.99   0.3226  [-0.0206,+0.0061]     
+  volume_zscore      market_neutral   -0.0071   -0.99    -0.99   0.3226  [-0.0206,+0.0061]     
+  sector_dispersion  raw               0.0067    0.86     0.84   0.3902  [-0.0073,+0.0215]     
+  sector_dispersion  market_neutral    0.0067    0.86     0.84   0.3902  [-0.0073,+0.0215]     
+  volume_trend       market_neutral   -0.0055   -0.86    -0.81   0.3912  [-0.0175,+0.0062]     
+  volume_trend       raw              -0.0055   -0.86    -0.81   0.3912  [-0.0175,+0.0062]     
+  volume_zscore      sector_neutral   -0.0068   -0.86    -0.89   0.3916  [-0.0233,+0.0084]     
+  price_strength_20  raw              -0.0058   -0.81    -0.83   0.4202  [-0.0211,+0.0093]     
+  price_strength_20  market_neutral   -0.0058   -0.81    -0.83   0.4202  [-0.0211,+0.0093]     
+  spread_bps         raw               0.0054    0.81     0.80   0.4206  [-0.0086,+0.0195]     
+  spread_bps         market_neutral    0.0054    0.81     0.80   0.4206  [-0.0086,+0.0195]     
+  sentiment_score    sector_neutral   -0.0047   -0.64    -0.62   0.5235  [-0.0181,+0.0082]     
+  sentiment_score    market_neutral   -0.0039   -0.58    -0.57   0.5591  [-0.0161,+0.0076]     
+  sentiment_score    raw              -0.0039   -0.58    -0.57   0.5591  [-0.0161,+0.0076]     
+  flow_index         market_neutral   -0.0037   -0.53    -0.54   0.5950  [-0.0184,+0.0097]     
+  flow_index         raw              -0.0037   -0.53    -0.54   0.5950  [-0.0184,+0.0097]     
+  flow_index         sector_neutral    0.0029    0.41     0.37   0.6825  [-0.0095,+0.0164]     
+  intraday_range     market_neutral    0.0027    0.37     0.38   0.7078  [-0.0132,+0.0169]     
+  intraday_range     raw               0.0027    0.37     0.38   0.7078  [-0.0132,+0.0169]     
+  event_flag         raw              -0.0018   -0.24    -0.23   0.8104  [-0.0152,+0.0122]     
+  event_flag         market_neutral   -0.0018   -0.24    -0.23   0.8104  [-0.0152,+0.0122]     
+  event_flag         sector_neutral    0.0015    0.20     0.20   0.8394  [-0.0112,+0.0146]     
+  intraday_range     sector_neutral    0.0009    0.11     0.11   0.9115  [-0.0146,+0.0164]     
+  realized_vol_5d    sector_neutral   -0.0005   -0.06    -0.06   0.9491  [-0.0164,+0.0157]     
+  realized_vol_5d    market_neutral    0.0002    0.03     0.03   0.9773  [-0.0152,+0.0159]     
+  realized_vol_5d    raw               0.0002    0.03     0.03   0.9773  [-0.0152,+0.0159]     
+
+  excluded as degenerate (no cross-sectional variation after neutralisation):
+    sector_dispersion / sector_neutral
+
+===== SEGMENT DECOMPOSITION FOR BH SURVIVORS (development) =====
+  Does the edge sit in the tradeable session or in the untradeable gap?
+  field              segment                IC    t_nw
+  return_1d          close->close      -0.0426   -4.92
+  return_1d          overnight gap      0.0066    0.84
+  return_1d          open->close       -0.0542   -5.84
+
+  carry_score        close->close       0.0237    3.41
+  carry_score        overnight gap      0.0021    0.30
+  carry_score        open->close        0.0297    4.32
+
+  return_5d          close->close      -0.0169   -2.16
+  return_5d          overnight gap     -0.0075   -0.93
+  return_5d          open->close       -0.0200   -2.58
+
+===== TERCILE SPREADS FOR BH SURVIVORS (development) =====
+  Equal-weight sort on the sector-neutral signal; returns in annualised %.
+  field                    low       mid      high    spread    t_nw  monotone
+  return_1d              11.63     -1.34    -10.29    -21.92   -5.07      True
+  carry_score            -5.14     -1.52      6.66     11.80    3.47      True
+  return_5d               3.41     -0.95     -2.47     -5.88   -1.48      True
+
+==============================================================================
+  1.3  DIAGNOSTICS AND COST BRIDGE
+==============================================================================
+===== SIGNAL DECAY (development) =====
+  IC against open(t+k) -> close(t+k), sector-neutral. Decay sets trade frequency.
+    k  reversal IC      t     carry IC      t
+    1        0.0542   5.84       0.0297   4.32
+    2       -0.0067  -0.98       0.0300   4.38
+    3       -0.0068  -0.88       0.0308   4.55
+    4        0.0050   0.60       0.0294   4.36
+    5       -0.0051  -0.63       0.0275   4.03
+   10       -0.0088  -1.04       0.0262   3.77
+   20        0.0025   0.31       0.0222   3.10
+
+===== SUB-PERIOD STABILITY (development) =====
+          period     n  reversal IC   t_nw     carry IC   t_nw
+            2021   261        0.0176   1.05       0.0168   1.31
+            2022   260        0.0686   4.21       0.0254   1.89
+            2023   260        0.0709   4.39       0.0461   3.57
+            2024   129        0.0650   3.03       0.0312   1.68
+      first half   455        0.0484   3.64       0.0191   2.06
+     second half   455        0.0599   4.85       0.0402   4.02
+  reversal: share of days with positive IC = 0.593
+  carry: share of days with positive IC = 0.553
+  corr(IC_reversal, IC_carry) = -0.020   -> diversification between sleeves
+
+===== CONDITIONAL STRENGTH (development) =====
+  Median split each day; reversal IC computed within each half.
+  conditioner          low half      t  high half      t     diff
+  realized_vol_20d       0.0377   3.21     0.0580   4.70  +0.0203
+  liquidity_score        0.0474   4.07     0.0561   5.10  +0.0087
+  volume_zscore          0.0394   3.51     0.0611   5.25  +0.0217
+  spread_bps             0.0561   5.10     0.0474   4.07  -0.0087
+  event_intensity        0.0499   4.42     0.0528   4.58  +0.0029
+  market_volatility          constant cross-sectionally - skipped
+
+===== ORTHOGONALITY (development) =====
+  Daily cross-sectional regression of one signal's rank on the other's.
+  mean daily cross-sectional rank corr(reversal, carry) = -0.0225
+  residual IC of carry | reversal     = +0.0286  t_nw +3.94
+  residual IC of reversal | carry     = +0.0512  t_nw +5.64
+
+===== COST BRIDGE (development) =====
+  Naive daily rebalance to rank weights at NAV $1,000,000, priced with the engine's own cost model.
+  signal       gross   gross α  turnover      cost     net α  net/gross  breakeven
+  reversal       0.5     5.45%     0.682     9.68%    -4.23%      -0.77       0.56
+  reversal       1.0    10.91%     1.364    20.63%    -9.72%      -0.89       0.53
+  reversal       2.0    21.82%     2.728    44.86%   -23.04%      -1.06       0.49
+  carry          0.5     3.25%     0.061     0.80%     2.45%       0.75       4.08
+  carry          1.0     6.50%     0.121     1.64%     4.86%       0.75       3.97
+  carry          2.0    13.00%     0.243     3.41%     9.59%       0.74       3.81
+
+  'breakeven' = the cost multiplier at which net alpha reaches zero.
+  The engine stress-tests costs at 1.0x, 1.5x and 2.0x.
+
+Artifacts written to artifacts/phase1/
