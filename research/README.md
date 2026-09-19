@@ -32,11 +32,9 @@ leave-one-year-out). It imports helpers from `src/` rather than restating them, 
 cannot drift from the code the strategy uses, and it calibrates each estimator against
 synthetic data with a known answer before trusting it.
 
-Regenerate and re-execute with:
-
-```bash
-python research/build_notebook.py --run
-```
+`research/build_notebook.py --run` regenerates the original machine-built version as
+`research/analysis_generated.ipynb`. The root `analysis.ipynb` was then edited by hand for
+readability, so the generator deliberately never overwrites it.
 
 The notebook is not executed by the evaluator.
 

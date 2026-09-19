@@ -1,0 +1,15 @@
+{
+  "written_utc": "2026-09-19T14:44:43+00:00",
+  "status": "Written BEFORE public validation was opened. Validation has never been loaded by any research code.",
+  "frozen_files_sha256": {
+    "strategy.py": "efe919e5cd79cf4758dccdcb178af1a64705056e8c8982f7c5b83797e8884fe8",
+    "src/strategy_core.py": "d83cd3aa0f7552b29984dd8eee022ac4cd52101e109af052660644aef33acec5",
+    "artifacts/params.json": "49a6d9776310a440ec42ec21c48b8dd0c1fbdbf71db612a297b08bcf229084d3"
+  },
+  "procedure": "Run starter/backtester.py --split validation once at cost multipliers 1.0, 1.5 and 2.0. No change to code or config afterwards, whatever the result.",
+  "expectations_stated_in_advance": {
+    "sampling_noise": "132 sessions gives an annualised Sharpe standard error of about sqrt(252/132) = 1.4. Any validation Sharpe between roughly -1.5 and +4 is consistent with the development estimate (full-dev Sharpe 1.22, 2023-24 out-of-sample 1.79).",
+    "what_would_worry_us": "A validation Sharpe below about -1.5, a drawdown much beyond the development maximum of -5.9%, any constraint adjustment day, or turnover far from ~31 per year (which would suggest a behaviour change rather than noise).",
+    "prior_on_2021_like_regime": "Both signals were weak in 2021; a similar regime would show up as a small negative return, not a failure of the method."
+  }
+}

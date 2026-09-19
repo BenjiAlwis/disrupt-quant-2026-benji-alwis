@@ -1,0 +1,19 @@
+{
+  "description": "Frozen submission configuration. See artifacts/phase2/decision_record.json and decision_record_2_carry_denoise.json.",
+  "config": {
+    "carry_gross": 1.2,
+    "carry_band": 0.25,
+    "carry_refresh": 1,
+    "carry_smooth": 21,
+    "use_reversal_overlay": false,
+    "rev_leg": 0.1,
+    "rev_kappa": 1.0,
+    "rev_min_sessions": 60,
+    "rev_recalibrate": 21,
+    "rev_prior_b": null,
+    "rev_prior_sessions": 250,
+    "reference_nav": 1000000.0,
+    "max_asset": 0.19,
+    "max_gross": 1.95
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "written_utc": "2026-09-19T14:38:04+00:00",
+  "status": "FROZEN before any 2023-2024 block was simulated",
+  "strategy_core_sha256": "a9f0a8988812d06e079a12d8327eb48f250c5b9b0fee1ff41501f8a96838c63b",
+  "config": {
+    "carry_gross": 1.2,
+    "carry_band": 0.25,
+    "rev_leg": 0.1,
+    "rev_kappa": 1.0,
+    "rev_min_sessions": 60,
+    "rev_recalibrate": 21,
+    "rev_prior_b": null,
+    "rev_prior_sessions": 250,
+    "reference_nav": 1000000.0,
+    "max_asset": 0.19,
+    "max_gross": 1.95
+  },
+  "design_decisions_made_on": "2021-01-01 .. 2022-12-30 only (calibration window)",
+  "design_decisions": {
+    "rev_kappa = 1.0": "theory-neutral gate: trade iff expected edge exceeds round-trip cost. kappa = 2.0 was considered (every trade expected-positive under the evaluator's 2x stress) and rejected on the calibration window because it fired only 0.06 pairs/day. Gated trades realised ~3x their predicted edge there, so kappa = 1 already clears 2x costs in realised terms.",
+    "carry_gross = 1.2": "risk budget of roughly 5% annual volatility for a market-neutral book; leaves headroom under the 20% single-name limit when a 10% overlay leg stacks on a carry position (max 0.075 + 0.10 = 0.175). Not optimised.",
+    "rev_leg = 0.10": "round figure keeping the stacked single-name weight below 0.19. Not optimised.",
+    "carry_band = 0.25": "proportional-cost no-trade region; negligible effect on the calibration window (turnover 29.1 -> 28.0) but costless.",
+    "rev_recalibrate = 21, rev_min_sessions = 60": "monthly expanding-window refit; set a priori."
+  },
+  "test_blocks": [
+    [
+      "2023-01-01",
+      "2023-06-30"
+    ],
+    [
+      "2023-07-01",
+      "2023-12-29"
+    ],
+    [
+      "2024-01-01",
+      "2024-06-28"
+    ]
+  ],
+  "expectations_stated_in_advance": [
+    "The combined strategy has positive net return in at least 2 of 3 test blocks.",
+    "The overlay adds return over carry-only in at least 2 of 3 test blocks.",
+    "constraint_adjustment_days = 0 in every block (the book never trips engine limits).",
+    "Net return stays positive at 1.5x cost stress in at least 2 of 3 blocks."
+  ],
+  "sensitivity_grid_reported_not_used_for_selection": {
+    "rev_kappa": [
+      0.75,
+      1.0,
+      1.5
+    ],
+    "rev_leg": [
+      0.05,
+      0.1,
+      0.15
+    ],
+    "carry_gross": [
+      0.8,
+      1.2,
+      1.6
+    ],
+    "carry_band": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "rev_recalibrate": [
+      10,
+      21,
+      63
+    ]
+  },
+  "decision_rule": "The config above is final whatever the test blocks show. It may change only to fix a demonstrable bug, and any such change is disclosed with before/after results.",
+  "validation_policy": "public validation is opened once, after this walk-forward and the sensitivity analysis are complete."
+}

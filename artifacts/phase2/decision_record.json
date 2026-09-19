@@ -1,0 +1,29 @@
+{
+  "written_utc": "2026-09-19T14:41:15+00:00",
+  "decision": "Submit the carry core only. The reversal overlay is disabled.",
+  "deviation_from_preregistration": "The pre-registration named carry + overlay as the final config 'whatever the test blocks show'. We deviated from that rule, deliberately and openly.",
+  "why": [
+    "Pre-registered expectation 2 ('overlay adds return in >= 2 of 3 test blocks') FAILED: +4.32pp, -0.26pp, -0.83pp.",
+    "Overlay increment over 2023-01..2024-06 at 1x costs: +1.00%/yr, HAC t = +0.64, 95% bootstrap CI [-2.59, +4.69] %/yr: indistinguishable from zero.",
+    "Under the evaluator's own cost stresses the overlay is a net negative: -0.14pp at 1.5x, -1.32pp at 2x. Carry-only Sharpe 1.79 / 1.63 / 1.46 vs combined 1.81 / 1.46 / 1.10 at 1x / 1.5x / 2x.",
+    "Combined max drawdown -4.00% vs carry-only -2.73%; turnover 113.5 vs 28.7 per year."
+  ],
+  "why_this_is_model_selection_not_tuning": "Both models were fully specified before any test block was run; carry-only was the pre-registered reference. No parameter was changed or re-estimated in response to the test blocks. The choice is between two pre-specified models by a pre-registered test, and counts as one additional trial.",
+  "what_was_NOT_done": "The overlay was not re-tuned (e.g. a stricter gate or smaller legs) to rescue it on the test blocks. The pre-registered sensitivity grid is reported for context only.",
+  "code_change": "Added an explicit use_reversal_overlay switch to Config. Verified byte-identical daily returns to the pre-registered carry-only reference in all three blocks and the continuous run.",
+  "final_config": {
+    "carry_gross": 1.2,
+    "carry_band": 0.25,
+    "use_reversal_overlay": false,
+    "rev_leg": 0.1,
+    "rev_kappa": 1.0,
+    "rev_min_sessions": 60,
+    "rev_recalibrate": 21,
+    "rev_prior_b": null,
+    "rev_prior_sessions": 250,
+    "reference_nav": 1000000.0,
+    "max_asset": 0.19,
+    "max_gross": 1.95
+  },
+  "strategy_core_sha256_after_change": "d83cd3aa0f7552b29984dd8eee022ac4cd52101e109af052660644aef33acec5"
+}

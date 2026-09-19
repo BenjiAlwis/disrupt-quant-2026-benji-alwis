@@ -1,0 +1,46 @@
+{
+  "written_utc": "2026-09-19T19:54:28+00:00",
+  "status": "Written BEFORE carry_smooth=21 was run on any 2023-2024 data. Validation still unopened.",
+  "trigger": "An externally supplied candidate strategy (research/phase2/candidate_external.py) showed its carry core, which re-ranks every 5 sessions, had half our turnover and higher Sharpe on 2023-24. Its overlay added ~0.10 Sharpe and was not adopted.",
+  "information_leak_disclosed": "The IDEA that carry ranks need de-noising was prompted by 2023-24 evidence from the candidate. The specific rule was then chosen on 2021-22 only.",
+  "mechanism_measured_on_design_window": "58% of daily carry target changes in 2021-22 reversed within 5 sessions: near-tied names swapping ranks and swapping back. Each swap is a full-step trade that the drift band cannot suppress.",
+  "selection": {
+    "window": "2021-07-01 .. 2022-12-30",
+    "criterion_declared_before_running": "highest Sharpe at 1.5x costs; within 0.05 of best prefer smoothing over refresh (no phase dependence), then the shorter window",
+    "candidates": {
+      "daily": 0.66,
+      "refresh 5": 0.84,
+      "refresh 10": 1.03,
+      "smooth 5": 0.95,
+      "smooth 10": 0.9,
+      "smooth 21": 1.01
+    },
+    "refresh_5_phase_range_sr_1_5x": [
+      0.78,
+      1.28
+    ],
+    "selected": "carry_smooth = 21"
+  },
+  "adoption_rule": "Recommended for adoption. The 2023-24 run that follows is CONFIRMATION ONLY: the rule is not changed in response to it, and it would be reverted only if that run revealed a bug or a failure mode (e.g. constraint adjustments, turnover far above design-window levels).",
+  "outcome": {
+    "adopted": true,
+    "confirmation_2023_01_to_2024_06": {
+      "sharpe_1x_1.5x_2x_before": [
+        1.79,
+        1.63,
+        1.46
+      ],
+      "sharpe_1x_1.5x_2x_after": [
+        2.44,
+        2.39,
+        2.35
+      ],
+      "turnover_before_after": [
+        28.7,
+        8.3
+      ],
+      "constraint_adjustment_days": 0
+    },
+    "note": "Improves every out-of-sample block at every cost multiplier. No bug or failure mode found, so adopted per the rule above."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "written_utc": "2026-09-19T19:58:01+00:00",
+  "version": 2,
+  "status": "Written BEFORE public validation was opened. Validation has never been loaded by any research code. Supersedes v1 because the carry core now ranks a 21-session mean score (decision_record_2_carry_denoise.json).",
+  "frozen_files_sha256": {
+    "strategy.py": "efe919e5cd79cf4758dccdcb178af1a64705056e8c8982f7c5b83797e8884fe8",
+    "src/strategy_core.py": "879af76dc6d689aa745e04a3c89b68d9d06cc537dbda53a0aed2b2b83490e545",
+    "artifacts/params.json": "1db81ebbb37f80663b00021fde06d54e525626eacdf6941ab118352de68cca83"
+  },
+  "procedure": "Run starter/backtester.py --split validation once at cost multipliers 1.0, 1.5 and 2.0. No change to code or config afterwards, whatever the result.",
+  "honest_trial_count": {
+    "phase1_screen_tests": 37,
+    "phase2_engine_runs_logged": 140,
+    "note": "Engine runs include sensitivity grids and reference models; distinct configurations actually used for SELECTION are far fewer (combined vs carry-only; the declared de-noising criterion over 6 rules).",
+    "log_note": "trial_log.csv mixes two row schemas (full metrics rows and short de-noising rows); count is raw data lines."
+  },
+  "expectations_stated_in_advance": {
+    "sampling_noise": "132 sessions gives an annualised Sharpe standard error of about 1.4. Any validation Sharpe between roughly -1 and +4.5 is consistent with development (full-dev 1.66).",
+    "expected_level": "Our central expectation is closer to the full-development Sharpe (1.66) than the 2023-24 figure (2.44), because part of the 2023-24 gross gain from smoothing had no mechanism behind it.",
+    "what_would_worry_us": "A drawdown well beyond the development maximum of -3.4%, any constraint-adjustment day, or turnover far from ~8 per year (a behaviour change rather than noise)."
+  }
+}

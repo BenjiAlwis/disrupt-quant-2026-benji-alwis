@@ -1466,7 +1466,9 @@ def build() -> nbf.NotebookNode:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--run", action="store_true", help="execute the notebook in place")
-    ap.add_argument("--out", type=Path, default=ROOT / "analysis.ipynb")
+    # Writes a separate file: the root analysis.ipynb was hand-edited after generation
+    # and must never be overwritten by this script.
+    ap.add_argument("--out", type=Path, default=ROOT / "research" / "analysis_generated.ipynb")
     args = ap.parse_args()
 
     nb = build()
