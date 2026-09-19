@@ -1,0 +1,71 @@
+{
+  "run_utc": "2026-09-19T22:16:32+00:00",
+  "git_commit_frozen": "d03918c",
+  "runs": "exactly one run per cost multiplier (1.0, 1.5, 2.0); no changes afterwards",
+  "metrics": {
+    "1.0": {
+      "sessions": 132,
+      "total_return": -0.006997333668983363,
+      "annualized_return": -0.013316048794147384,
+      "annualized_volatility": 0.054091330638514214,
+      "sharpe": -0.22095305467762294,
+      "sortino": -0.29175234947998463,
+      "maximum_drawdown": -0.05174480883174304,
+      "calmar": -0.25734076702161096,
+      "hit_rate": 0.5378787878787878,
+      "average_turnover": 0.04403447490294034,
+      "annualized_turnover": 11.096687675540965,
+      "transaction_costs": 0.00355417219080781,
+      "average_gross_exposure": 1.193479548442819,
+      "maximum_gross_exposure": 1.219116942394579,
+      "average_net_exposure": -0.002551395303291942,
+      "maximum_absolute_net_exposure": 0.02920572184942217,
+      "constraint_adjustment_days": 0
+    },
+    "1.5": {
+      "sessions": 132,
+      "total_return": -0.008760535470403452,
+      "annualized_return": -0.016658042282423402,
+      "annualized_volatility": 0.05411245986659021,
+      "sharpe": -0.28354165253486224,
+      "sortino": -0.37343157389645687,
+      "maximum_drawdown": -0.05220639615051115,
+      "calmar": -0.3190804865058724,
+      "hit_rate": 0.5378787878787878,
+      "average_turnover": 0.044033918902176,
+      "annualized_turnover": 11.096547563348352,
+      "transaction_costs": 0.005330792455046602,
+      "average_gross_exposure": 1.193479548442819,
+      "maximum_gross_exposure": 1.219116942394579,
+      "average_net_exposure": -0.002551395303291942,
+      "maximum_absolute_net_exposure": 0.02920572184942217,
+      "constraint_adjustment_days": 0
+    },
+    "2.0": {
+      "sessions": 132,
+      "total_return": -0.010520579075649406,
+      "annualized_return": -0.0199886642926963,
+      "annualized_volatility": 0.05414253881330632,
+      "sharpe": -0.34601346588039905,
+      "sortino": -0.4545278171843857,
+      "maximum_drawdown": -0.05279513008821535,
+      "calmar": -0.3786081075905534,
+      "hit_rate": 0.5378787878787878,
+      "average_turnover": 0.04403356308112781,
+      "annualized_turnover": 11.096457896444209,
+      "transaction_costs": 0.007107108692862936,
+      "average_gross_exposure": 1.193479548442819,
+      "maximum_gross_exposure": 1.219116942394579,
+      "average_net_exposure": -0.002551395303291942,
+      "maximum_absolute_net_exposure": 0.02920572184942217,
+      "constraint_adjustment_days": 0
+    }
+  },
+  "assessment_against_preregistered_expectations": {
+    "sharpe": "-0.22 at 1x. Inside the pre-stated consistency band (-1 to +4.5); z = -1.36 against the full-development Sharpe of 1.66. Only 2.2% of development 132-session windows were this weak (worst -0.73), so it is a bottom-tail outcome, not an unprecedented one.",
+    "drawdown": "-5.17%. FLAGGED: deeper than any 132-session window in development (worst -3.39%). This was one of the three pre-stated warning signs.",
+    "behaviour": "Turnover 11.1/yr (vs ~8 expected), zero constraint adjustments, max |net| 2.9%, beta -0.02. The strategy behaved as designed; it did not malfunction.",
+    "signal": "Traded carry IC fell to +0.013 (t 0.63) from +0.028 in development: weaker, but not reversed. Strong July (+0.13), flat to negative September-December. Gross P&L was roughly flat, and costs of 0.36% made it slightly negative.",
+    "action": "None. Per the validation plan, no code or configuration changes follow. Rejected alternatives (daily ranks, reversal overlay, the external candidate) were deliberately NOT run on validation, so that it could not become a model-selection set."
+  }
+}
